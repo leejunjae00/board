@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Getter
 
 public class BaseEntity {
-  @CreationTimestamp
-  @Column(updatable = false)
+  @CreationTimestamp  // 데이터가 생성되었을 때 시간을 만들어줌
+  @Column(updatable = false) // 수정 시에 관여 안함
   private LocalDateTime createdTime;
 
   @UpdateTimestamp
-  @Column(insertable = false)
+  @Column(insertable = false) // 입력 시에 관여 안함
   private LocalDateTime updatedTime;
 }
