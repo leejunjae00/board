@@ -4,7 +4,10 @@ import com.codingrecipe.board.dto.BoardDTO;
 import com.codingrecipe.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,5 +23,13 @@ public class BoardController {
     System.out.println("boardDTO = " + boardDTO);
     boardService.save(boardDTO);
     return "index";                                          //이름과 DTO 필드 값과 동일하면 해당하는 세터를 호출하고 담아줌
+  }
+
+  @GetMapping("/")
+  public String findAll(Model model){  // 전체 목록을 가져와야함 Model 객체 이용
+      // DB에서 전체 게시글 데이터를 가져와서 list.html에 보여준다.
+      List<BoardDTO> boardDTOList = boardService.findAll();
+      model.addAttribute("boardList", boardDTOList);
+      return "list";
   }
 }
