@@ -32,4 +32,17 @@ public class BoardController {
       model.addAttribute("boardList", boardDTOList);
       return "list";
   }
+
+  @GetMapping("/{id}")
+  public String findById(@PathVariable long id, Model model){
+    /*
+        해당 게시글의 조회수를 하나 올리고
+        게시글 데이터를 가져와서 detail.html에 출력
+     */
+    boardService.updateHits(id); // 조회수 업데이트
+    BoardDTO boardDTO = boardService.findById(id); // id에 해당하는 게시물을 조회하여 boardDTO로 반환
+    model.addAttribute("board", boardDTO); // 모델에 "board"라는 이름으로 조회한 게시물 정보를 추가
+    return "detail";
+  }
+
 }

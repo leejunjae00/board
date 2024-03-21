@@ -5,9 +5,11 @@ import com.codingrecipe.board.entity.BoardEntity;
 import com.codingrecipe.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //DTO -> Entity (Entity 클래스)
 //Entity -> DTO 변환 (DTO 클래스)
@@ -30,5 +32,21 @@ public class BoardService {
         boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
     }
     return boardDTOList;
+  }
+
+  @Transactional
+  public void updateHits(long id) {
+      boardRepository.updateHits(id); // 데이터 베이스의 해당 id에 해당하는 게시물 조회수를 업데이트
+  }
+
+  public BoardDTO findById(long id) {
+    Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id); // 주어진 id에 해당하는 게시물을 조회
+    if (optionalBoardEntity.isPresent()) {
+      BoardEntity boardEntity = optionalBoardEntity.get(); // Optional에서 BoardEntity 객체를 가져옴
+      BoardDTO boardDTO = BoardDTO.toBoardDTO(boardEntity); // BoardEntity를 BoardDTO로 변환
+      return boardDTO;
+    } else{
+      return null;
+    }
   }
 }
